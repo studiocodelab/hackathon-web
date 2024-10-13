@@ -10,7 +10,8 @@ export const paths = {
  Kalendarz: '/dashboard/Kalendarz',
  Lista_szkolen: '/dashboard/Lista_szkolen',
  Dodaj_szkolenie: '/dashboard/Dodaj_szkolenie',
- Dodaj_ankiete: '/dashboard/Dodaj_ankiete'
+ Dodaj_ankiete: '/dashboard/Dodaj_ankiete',
+ Archiwum: '/dashboard/Archiwalne_szkolenia',
   },
   errors: { notFound: '/errors/not-found' },
 } as const;

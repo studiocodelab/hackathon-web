@@ -10,12 +10,13 @@
     import { getMainDefinition } from '@apollo/client/utilities';
 
     const httpLink = new HttpLink({
-    uri: 'https://hackathonapi.onrender.com',
-    })
-
-    const wsLink = new GraphQLWsLink(createClient({
-    url: 'ws://hackathonapi.onrender.com',
-    }));
+        uri: 'http://localhost:3001/',
+        })
+    
+        const wsLink = new GraphQLWsLink(createClient({
+        url: 'ws://localhost:3001/',
+        }));
+    
 
     const link = split(
     // split based on operation type

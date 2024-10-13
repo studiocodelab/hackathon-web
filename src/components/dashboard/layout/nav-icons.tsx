@@ -12,6 +12,7 @@ import { XSquare } from '@phosphor-icons/react/dist/ssr/XSquare';
  import {List} from '@phosphor-icons/react/dist/ssr/List';
  import {Plus} from '@phosphor-icons/react/dist/ssr/Plus';
  import {ChartBar} from '@phosphor-icons/react/dist/ssr/ChartBar';
+import { Archive } from '@phosphor-icons/react/dist/ssr/Archive';
 
 export const navIcons = {
   'chart-pie': ChartPieIcon,
@@ -23,6 +24,7 @@ export const navIcons = {
  'List': List,
  'Plus': Plus,
  'ChartBar': ChartBar,
+ 'Archive': Archive,
   user: UserIcon,
   users: UsersIcon,
 } as Record<string, Icon>;

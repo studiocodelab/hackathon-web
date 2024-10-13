@@ -52,7 +52,7 @@ export default function Page(): React.JSX.Element {
 function List(): React.JSX.Element {  
     const {data, loading, error} = useQuery(GET_TRAINING);  
 
-    return (loading ? <p>Loading...</p> : <> <h1 style={{marginLeft: 20}}>Aktualne szkolenia</h1> {data.getTraining.filter((element : any) => {return new Date(element.date) > new Date(Date.now())}).map((training: any) => {
+    return (loading ? <p>Loading...</p> : <> <h1 style={{marginLeft: 20}}>Archiwalne szkolenia</h1> {data.getTraining.filter((element : any) => {return new Date(element.date) < new Date(Date.now())}).map((training: any) => {
       return (
         <Card style={{padding: 10, margin: 10}}>
             <Accordion>

@@ -7,17 +7,33 @@ import { Download as DownloadIcon } from '@phosphor-icons/react/dist/ssr/Downloa
 import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { Upload as UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 import dayjs from 'dayjs';
-import { useState, useCallback } from 'react';
 
 import { config } from '@/config';
 import { CustomersFilters } from '@/components/dashboard/customer/customers-filters';
 import { CustomersTable } from '@/components/dashboard/customer/customers-table';
 import type { Customer } from '@/components/dashboard/customer/customers-table';
-import Scheduler from './scheduler';
+import {ApolloProvider, gql} from '@apollo/client';
+import {useQuery} from '@apollo/client';
+import Provider from './List';
 
 export const metadata = { title: `Customers | Dashboard | ${config.site.name}` } satisfies Metadata;
-export default function Component() {
-  return (
-  <Scheduler/>
-  );
+
+const GET_TRAINING = gql`
+query Query {
+    getTraining {
+      id
+      title
+      date
+      description
+      length
+      maxUsers
+    }
+  }
+`
+
+export default function Page(): React.JSX.Element {
+
+  return ( 
+    <Provider/>
+  )
 }

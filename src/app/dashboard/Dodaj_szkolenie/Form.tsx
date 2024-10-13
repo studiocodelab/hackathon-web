@@ -162,7 +162,7 @@ function Creator() : any {
                 onChange={(event : any) => {setFilesData(getForMultipleFiles(event.target.files))}}/>
               </Grid>
               <Grid lg={12} md={6} xs={12}>
-                <Button variant="contained" style={{fontSize: '110%'}} onClick={create}>Create</Button>
+                <Button variant="contained" style={{fontSize: '110%', backgroundColor: 'navy'}} onClick={create}>Create</Button>
               </Grid>
             </Grid>
           </Stack>
