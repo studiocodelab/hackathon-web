@@ -16,6 +16,7 @@
     "format:check": "prettier --check \"**/*.{js,jsx,mjs,ts,tsx,mdx}\" --cache"
   },
   "dependencies": {
+    "@apollo/client": "^3.11.2",
     "@emotion/cache": "11.11.0",
     "@emotion/react": "11.11.4",
     "@emotion/server": "11.11.0",
@@ -28,15 +29,23 @@
     "@mui/material": "5.15.20",
     "@mui/system": "5.15.20",
     "@mui/utils": "5.15.20",
-    "@mui/x-date-pickers": "7.7.1",
+    "@mui/x-charts": "^7.12.0",
+    "@mui/x-data-grid": "^7.12.0",
+    "@mui/x-date-pickers": "^7.7.1",
+    "@mui/x-tree-view": "^7.12.0",
     "@phosphor-icons/react": "2.1.6",
     "apexcharts": "3.49.2",
-    "dayjs": "1.11.11",
+    "dayjs": "^1.11.11",
+    "formeo": "^1.6.2",
+    "graphql-tag": "^2.12.6",
+    "graphql-ws": "^5.16.0",
     "next": "14.2.4",
     "react": "18.3.1",
     "react-apexcharts": "1.4.1",
     "react-dom": "18.3.1",
     "react-hook-form": "7.52.0",
+    "react-i18next": "^15.0.2",
+    "subscriptions-transport-ws": "^0.11.0",
     "zod": "3.23.8"
   },
   "devDependencies": {

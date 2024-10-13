@@ -1,6 +1,15 @@
+
+
+
+
 'use client';
 
 import type { User } from '@/types/user';
+
+import apolloClient from '../../graphqlclient.js';
+
+import {ApolloProvider, gql} from "@apollo/client";
+
 
 function generateToken(): string {
   const arr = new Uint8Array(12);
@@ -17,8 +26,6 @@ const user = {
 } satisfies User;
 
 export interface SignUpParams {
-  firstName: string;
-  lastName: string;
   email: string;
   password: string;
 }
@@ -37,13 +44,77 @@ export interface ResetPasswordParams {
 }
 
 class AuthClient {
-  async signUp(_: SignUpParams): Promise<{ error?: string }> {
+  async signUp(params : SignUpParams): Promise<{ error?: string }> {
+
+    const { email, password } = params;
     // Make API request
 
     // We do not handle the API, so we'll just generate a token and store it in localStorage.
+
     const token = generateToken();
     localStorage.setItem('custom-auth-token', token);
 
+    let userExists : any = await apolloClient.query({
+      query: gql`query GetUsers($login: StringFilter) {
+          getUsers(login: $login) {
+            id
+            login
+            password  
+          }
+        }`,variables: {
+          login: {
+            value: email,
+            filter: "eq"
+          }
+        }
+    })
+
+    if (userExists.data.getUsers.length !== 0) {
+      return {error: 'user already exists!'};
+    }
+
+    let allUsers : any = await apolloClient.query({
+      query: gql`query GetUsers {
+          getUsers {
+            id
+            login
+            password  
+          }
+        }`
+    })
+
+  let newToken = generateToken();
+
+    await apolloClient.mutate({
+      mutation: gql`mutation InsertUsers($login: String, $password: String, $token: String) {
+        insertUsers(login: $login, password: $password, session_token: $token) {
+        id  
+        }
+      }`,variables: {
+          login: email,
+          password: password,
+          token: newToken
+        }
+    })
+
+    await apolloClient.mutate({
+      mutation: gql`
+      mutation InsertUserInfo($roleId: Int, $userId: Int) {
+        insertUserInfo(roleId: $roleId, userId: $userId) {
+          id
+        }
+      }
+      `,
+      variables: {
+        roleId: 1,
+        userId: allUsers.data.getUsers[allUsers.data.getUsers.length - 1].id + 1
+      }
+    })
+
+    // localStorage.setItem('login', email);
+    // localStorage.setItem('password', password);
+    localStorage.setItem('session_token', newToken);
+    localStorage.setItem('id', allUsers.data.getUsers[allUsers.data.getUsers.length - 1].id + 1);
     return {};
   }
 
@@ -57,14 +128,38 @@ class AuthClient {
     // Make API request
 
     // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
-    if (email !== 'sofia@devias.io' || password !== 'Secret1') {
-      return { error: 'Invalid credentials' };
-    }
+    const query = await apolloClient.query({
+      query: gql`query GetUsers($login: StringFilter, $password: StringFilter) {
+          getUsers(login: $login, password: $password) {
+            id
+            login
+            password
+            session_token  
+          }
+        }`,variables: {
+          login: {
+            value: email,
+            filter: "eq"
+          }, password: {
+            value: password,
+            filter: "eq"
+          }
+        }
+    })
 
-    const token = generateToken();
-    localStorage.setItem('custom-auth-token', token);
-
-    return {};
+    let results = query.data.getUsers;
+        if (results.length === 0) {
+          return { error: 'Invalid credentials' };
+        } else {
+          const token = generateToken();
+          localStorage.setItem('custom-auth-token', token);
+          localStorage.setItem('id', results[0].id);
+          // localStorage.setItem('login', results[0].login);
+          // localStorage.setItem('password', results[0].password);
+          localStorage.setItem('session_token', results[0].session_token);
+      
+          return {};
+        }
   }
 
   async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {
@@ -89,10 +184,15 @@ class AuthClient {
   }
 
   async signOut(): Promise<{ error?: string }> {
+    localStorage.removeItem('login');
+    localStorage.removeItem('password');
+    localStorage.removeItem('id');
     localStorage.removeItem('custom-auth-token');
+    localStorage.removeItem('session_token');
 
     return {};
   }
 }
 
 export const authClient = new AuthClient();
+

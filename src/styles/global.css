@@ -31,3 +31,7 @@ html {
 body {
   height: 100%;
 }
+
+.form-actions {
+  display: none !important;
+}

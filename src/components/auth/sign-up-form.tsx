@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -23,16 +24,14 @@ import { authClient } from '@/lib/auth/client';
 import { useUser } from '@/hooks/use-user';
 
 const schema = zod.object({
-  firstName: zod.string().min(1, { message: 'First name is required' }),
-  lastName: zod.string().min(1, { message: 'Last name is required' }),
-  email: zod.string().min(1, { message: 'Email is required' }).email(),
+  email: zod.string().min(1, { message: 'Email is required' }),
   password: zod.string().min(6, { message: 'Password should be at least 6 characters' }),
   terms: zod.boolean().refine((value) => value, 'You must accept the terms and conditions'),
 });
 
 type Values = zod.infer<typeof schema>;
 
-const defaultValues = { firstName: '', lastName: '', email: '', password: '', terms: false } satisfies Values;
+const defaultValues = { email: '', password: '', terms: false } satisfies Values;
 
 export function SignUpForm(): React.JSX.Element {
   const router = useRouter();
@@ -83,7 +82,7 @@ export function SignUpForm(): React.JSX.Element {
       </Stack>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
-          <Controller
+          {/* <Controller
             control={control}
             name="firstName"
             render={({ field }) => (
@@ -104,14 +103,14 @@ export function SignUpForm(): React.JSX.Element {
                 {errors.firstName ? <FormHelperText>{errors.firstName.message}</FormHelperText> : null}
               </FormControl>
             )}
-          />
+          /> */}
           <Controller
             control={control}
             name="email"
             render={({ field }) => (
               <FormControl error={Boolean(errors.email)}>
-                <InputLabel>Email address</InputLabel>
-                <OutlinedInput {...field} label="Email address" type="email" />
+                <InputLabel>Login</InputLabel>
+                <OutlinedInput {...field} label="Login" type="text" />
                 {errors.email ? <FormHelperText>{errors.email.message}</FormHelperText> : null}
               </FormControl>
             )}
@@ -150,7 +149,7 @@ export function SignUpForm(): React.JSX.Element {
           </Button>
         </Stack>
       </form>
-      <Alert color="warning">Created users are not persisted</Alert>
     </Stack>
   );
 }
+

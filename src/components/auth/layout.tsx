@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import RouterLink from 'next/link';
 import Box from '@mui/material/Box';
@@ -45,18 +46,19 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
           <Stack spacing={1}>
             <Typography color="inherit" sx={{ fontSize: '24px', lineHeight: '32px', textAlign: 'center' }} variant="h1">
               Welcome to{' '}
-              <Box component="span" sx={{ color: '#15b79e' }}>
-                Devias Kit
+              <Box component="span" sx={{ color: 'lightblue' }}>
+                PPPT
               </Box>
             </Typography>
-            <Typography align="center" variant="subtitle1">
+            {/* <Typography align="center" variant="subtitle1">
               A professional template that comes with ready-to-use MUI components.
-            </Typography>
+            </Typography> */}
           </Stack>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Box
               component="img"
               alt="Widgets"
+              borderRadius={9}
               src="/assets/auth-widgets.png"
               sx={{ height: 'auto', width: '100%', maxWidth: '600px' }}
             />
@@ -66,3 +68,4 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
     </Box>
   );
 }
+
